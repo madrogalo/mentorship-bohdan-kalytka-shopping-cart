@@ -1,0 +1,38 @@
+.content {
+  margin: 0 auto;
+  width: 80%;
+}
+
+.header {
+  display: flex;
+  border-bottom: 1.5px solid #d0cfcf;
+  padding-top: 51px;
+  padding-bottom: 23px;
+}
+
+.intro-cart {
+  text-align: start;
+  padding-top: 23px;
+}
+
+.total-price {
+  margin-top: 10px;
+  border: 2px white solid;
+  background-color: #4de1c1;
+  border-radius: 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  width: 70%;
+}
+
+.total-price h4 {
+  margin: 0;
+  padding-top: 5px;
+}
+
+.total-price button {
+  color: white;
+  font-size: 20px;
+}
