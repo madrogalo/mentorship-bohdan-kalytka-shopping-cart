@@ -9,6 +9,7 @@ export const data = [
     type: "Extra cheese and toping",
     price: 200,
     id: 1,
+    count: 1,
   },
   {
     name: "Combo plate",
@@ -16,6 +17,7 @@ export const data = [
     type: "Extra cheese and toping",
     price: 150,
     id: 2,
+    count: 1,
   },
   {
     name: "Spanish Rice",
@@ -23,5 +25,6 @@ export const data = [
     type: "Extra gallic",
     price: 180,
     id: 3,
+    count: 1,
   },
 ];

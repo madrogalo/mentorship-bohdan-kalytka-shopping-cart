@@ -6,29 +6,46 @@ import { useState } from "react";
 
 export const Shopping = (props) => {
   const [allPrice, setAllPrice] = useState();
-  const [changePage, setChangePage] = useState(data);
+  const [changeState, setChangeState] = useState(data);
 
-  function handler() {
-    let summ = 0;
-    return function (price) {
-      summ = summ + price / 2;
-      return setAllPrice(summ);
-    };
-  }
+  // function handler() {
+  //   let summ = 0;
+  //   return function (price) {
+  //     summ = summ + price / 2;
+  //     return setAllPrice(summ);
+  //   };
+  // }
 
-  const suma = handler();
+  // const suma = handler();
 
-  function deleteOrder() {
-    let find = data;
-    return function (id) {
-      let info = find.filter((item) => item.id !== id);
-      console.log(info);
-    };
-  }
+  const deletes = (id) => {
+    let info = changeState.filter((item) => item.id !== id);
+    setChangeState(info);
+  };
 
-  // console.log(changePage);
+  const plus = (id, count) => {
+    let dataForPlus = changeState;
+    dataForPlus.some((item) => {
+      if (item.id === id) {
+        item.count++;
+        item.price += item.price / count;
+      }
+    });
+    setChangeState(dataForPlus);
+  };
 
-  const deletes = deleteOrder();
+  const minus = (id, count) => {
+    let dataForMinus = changeState;
+    dataForMinus.some((item) => {
+      if (item.id === id) {
+        item.count--;
+        item.price -= item.price / count;
+      }
+    });
+    setChangeState(dataForMinus);
+  };
+
+  console.log(changeState);
 
   return (
     <div className="content">
@@ -41,17 +58,20 @@ export const Shopping = (props) => {
         <p>You have 3 item in your cart</p>
       </div>
       <div className="items">
-        {changePage.map((item) => {
+        {changeState.map((item) => {
           return (
             <ShoppingCard
+              count={item.count}
               name={item.name}
               price={item.price}
               img={item.img}
               type={item.type}
               id={item.id}
               key={item.id}
-              getPrice={suma}
-              deletes={deletes}
+              // getPrice={suma}
+              plus={() => plus(item.id, item.count)}
+              minus={() => minus(item.id, item.count)}
+              deletes={() => deletes(item.id)}
             />
           );
         })}

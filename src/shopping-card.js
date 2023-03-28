@@ -5,24 +5,13 @@ import up from "./up.png";
 import down from "./down.png";
 
 export const ShoppingCard = (props) => {
-  const { name, type, img, price, id } = props;
-  let { getPrice } = props;
+  const { name, type, img, price, id, count, plus, minus } = props;
+  // let { getPrice } = props;
   let { deletes } = props;
-  const [count, setCount] = useState(1);
 
-  const plusHandler = () => {
-    setCount(count + 1);
-  };
+  // let changePrice = price * count;
 
-  const minusHandler = () => {
-    setCount(count - 1);
-  };
-
-  let changePrice = price * count;
-
-  getPrice(changePrice);
-
-  deletes(id);
+  // getPrice(changePrice);
 
   return (
     <div className="card">
@@ -40,12 +29,12 @@ export const ShoppingCard = (props) => {
           <h3>{count}</h3>
         </div>
         <div className="clicks">
-          <img src={up} alt="" onClick={plusHandler} />
-          <img src={down} alt="" onClick={minusHandler} />
+          <img src={up} alt="" onClick={() => plus(id, count)} />
+          <img src={down} alt="" onClick={() => minus(id, count)} />
         </div>
       </div>
       <div className="prices">
-        <h5>{changePrice} грн.</h5>
+        <h5>{price} грн.</h5>
       </div>
       <div className="trash">
         <img src={trash} alt="" onClick={() => deletes(id)} />
