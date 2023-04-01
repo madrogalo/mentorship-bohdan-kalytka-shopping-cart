@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./css/shoppingCard.css";
 import trash from "./Trashcan.png";
 import up from "./up.png";
@@ -6,12 +5,7 @@ import down from "./down.png";
 
 export const ShoppingCard = (props) => {
   const { name, type, img, price, id, count, plus, minus } = props;
-  // let { getPrice } = props;
   let { deletes } = props;
-
-  // let changePrice = price * count;
-
-  // getPrice(changePrice);
 
   return (
     <div className="card">

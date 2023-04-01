@@ -2,50 +2,59 @@ import side from "./side.png";
 import "./css/shopping.css";
 import { data } from "./data";
 import { ShoppingCard } from "./shopping-card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const Shopping = (props) => {
-  const [allPrice, setAllPrice] = useState();
+export const Shopping = () => {
   const [changeState, setChangeState] = useState(data);
+  const [prices, setPrices] = useState(0);
 
-  // function handler() {
-  //   let summ = 0;
-  //   return function (price) {
-  //     summ = summ + price / 2;
-  //     return setAllPrice(summ);
-  //   };
-  // }
-
-  // const suma = handler();
+  useEffect(() => {
+    let defaultPrice = changeState.reduce((sum, item) => {
+      return item.price + sum;
+    }, 0);
+    setPrices(defaultPrice);
+    // eslint-disable-next-line
+  }, []);
 
   const deletes = (id) => {
     let info = changeState.filter((item) => item.id !== id);
+    let sum = info.reduce((sum, item) => {
+      return item.price + sum;
+    }, 0);
+    setPrices(sum);
     setChangeState(info);
   };
 
   const plus = (id, count) => {
-    let dataForPlus = changeState;
-    dataForPlus.some((item) => {
+    changeState.forEach((item) => {
       if (item.id === id) {
         item.count++;
         item.price += item.price / count;
       }
     });
-    setChangeState(dataForPlus);
+    let sumPlus = changeState.reduce((sum, item) => {
+      return item.price + sum;
+    }, 0);
+
+    setPrices(sumPlus);
+    setChangeState(changeState);
   };
 
   const minus = (id, count) => {
-    let dataForMinus = changeState;
-    dataForMinus.some((item) => {
+    changeState.forEach((item) => {
       if (item.id === id) {
+        if (item.count === 0) return;
         item.count--;
         item.price -= item.price / count;
       }
     });
-    setChangeState(dataForMinus);
-  };
+    let sumMinus = changeState.reduce((sum, item) => {
+      return item.price + sum;
+    }, 0);
 
-  console.log(changeState);
+    setPrices(sumMinus);
+    setChangeState(changeState);
+  };
 
   return (
     <div className="content">
@@ -68,7 +77,6 @@ export const Shopping = (props) => {
               type={item.type}
               id={item.id}
               key={item.id}
-              // getPrice={suma}
               plus={() => plus(item.id, item.count)}
               minus={() => minus(item.id, item.count)}
               deletes={() => deletes(item.id)}
@@ -77,7 +85,7 @@ export const Shopping = (props) => {
         })}
       </div>
       <div className="total-price">
-        <h4>{allPrice} грн</h4>
+        <h4>{prices} грн</h4>
         <button className="btn">Checkout</button>
       </div>
     </div>
