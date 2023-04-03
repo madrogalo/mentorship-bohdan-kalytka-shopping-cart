@@ -2,33 +2,48 @@ import side from "./side.png";
 import "./css/shopping.css";
 import { data } from "./data";
 import { ShoppingCard } from "./shopping-card";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-export const Shopping = (props) => {
-  const [allPrice, setAllPrice] = useState();
-  const [changePage, setChangePage] = useState(data);
+export const Shopping = () => {
+  const [changeState, setChangeState] = useState(data);
 
-  function handler() {
-    let summ = 0;
-    return function (price) {
-      summ = summ + price / 2;
-      return setAllPrice(summ);
-    };
-  }
+  let totalPrice = useMemo(
+    () => changeState.reduce((sum, item) => item.price * item.count + sum, 0),
+    [changeState]
+  );
 
-  const suma = handler();
+  const deletes = (id) => {
+    let info = changeState.filter((item) => item.id !== id);
+    setChangeState(info);
+  };
 
-  function deleteOrder() {
-    let find = data;
-    return function (id) {
-      let info = find.filter((item) => item.id !== id);
-      console.log(info);
-    };
-  }
+  const plus = (el) => {
+    let newState = changeState.map((item) => {
+      if (item.id === el.id) {
+        const price = data.find((data) => data.id === el.id).price;
+        return {
+          ...item,
+          count: item.count + 1,
+        };
+      }
+      return item;
+    });
+    setChangeState(newState);
+  };
 
-  // console.log(changePage);
-
-  const deletes = deleteOrder();
+  const minus = (el) => {
+    let newState = changeState.map((item) => {
+      if (item.id === el.id) {
+        const price = data.find((data) => data.id === el.id).price;
+        return {
+          ...item,
+          count: item.count - 1,
+        };
+      }
+      return item;
+    });
+    setChangeState(newState);
+  };
 
   return (
     <div className="content">
@@ -41,23 +56,25 @@ export const Shopping = (props) => {
         <p>You have 3 item in your cart</p>
       </div>
       <div className="items">
-        {changePage.map((item) => {
+        {changeState.map((item) => {
           return (
             <ShoppingCard
+              count={item.count}
               name={item.name}
-              price={item.price}
+              price={item.price * item.count}
               img={item.img}
               type={item.type}
               id={item.id}
               key={item.id}
-              getPrice={suma}
-              deletes={deletes}
+              plus={() => plus(item)}
+              minus={() => minus(item)}
+              deletes={() => deletes(item.id)}
             />
           );
         })}
       </div>
       <div className="total-price">
-        <h4>{allPrice} грн</h4>
+        <h4>{totalPrice} грн</h4>
         <button className="btn">Checkout</button>
       </div>
     </div>

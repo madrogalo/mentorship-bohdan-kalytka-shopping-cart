@@ -1,5 +1,6 @@
 import "./App.css";
 import { Shopping } from "./shopping";
+import "./css/shopping.css";
 
 function App() {
   return (
