@@ -3,10 +3,17 @@ import trash from "./Trashcan.png";
 import up from "./up.png";
 import down from "./down.png";
 
-export const ShoppingCard = (props) => {
-  const { name, type, img, price, id, count, plus, minus } = props;
-  let { deletes } = props;
-
+export const ShoppingCard = ({
+  name,
+  type,
+  img,
+  price,
+  id,
+  count,
+  plus,
+  minus,
+  deletes,
+}) => {
   return (
     <div className="card">
       <div className="info-card">
